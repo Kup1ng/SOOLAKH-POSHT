@@ -209,9 +209,9 @@ echo -e "${CYAN}Datacenter:${NC} doctor kooni"
 }
 display_backhaul_core_status() {
 if [[ -f "${config_dir}/backhaul_premium" ]]; then
-echo -e "${CYAN}Backhaul Core:${NC} ${GREEN}Installed${NC}"
+echo -e "${CYAN}Soolakh Core:${NC} ${GREEN}Installed${NC}"
 else
-echo -e "${CYAN}Backhaul Core:${NC} ${RED}Not installed${NC}"
+echo -e "${CYAN}Soolakh Core:${NC} ${RED}Not installed${NC}"
 fi
 echo -e "\e[93m═══════════════════════════════════════════\e[0m"
 }
