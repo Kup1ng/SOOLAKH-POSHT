@@ -1306,12 +1306,12 @@ sleep 1
 return 1
 fi
 }
-RED='\''\033[0;31m'\''
-GREEN='\''\033[0;32m'\''
-YELLOW='\''\033[0;33m'\''
-CYAN='\''\e[36m'\''
-MAGENTA="\e[95m"
-NC='\''\033[0m'\'' # No Color
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+CYAN='\033[0;36m'
+MAGENTA='\033[0;35m'
+NC='\033[0m' # No Color
 display_menu() {
 clear
 display_logo
