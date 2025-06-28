@@ -204,6 +204,9 @@ echo -e "Telegram Channel: ${YELLOW}@Gozar_XRay${NC}"
 }
 display_server_info() {
 echo -e "\e[93m═══════════════════════════════════════════\e[0m"
+echo -e "${CYAN}IP Address:${NC} $SERVER_IP"
+echo -e "${CYAN}Location:${NC} Koone Doctor"
+echo -e "${CYAN}Datacenter:${NC} doctor kooni"
 }
 display_backhaul_core_status() {
 if [[ -f "${config_dir}/backhaul_premium" ]]; then
