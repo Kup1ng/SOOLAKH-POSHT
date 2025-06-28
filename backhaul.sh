@@ -126,7 +126,7 @@ rm -rf "${config_dir}/LICENSE" >/dev/null 2>&1
 rm -rf "${config_dir}/README.md" >/dev/null 2>&1
 }
 download_and_extract_backhaul
-SERVER_IP="127.0.0.1"
+SERVER_IP=$(hostname -I | awk '\''{print $1}'\'')
 check_config_backup() {
 missing_services=()
 for config in "${config_dir}"/iran*.toml "${config_dir}"/kharej*.toml; do
