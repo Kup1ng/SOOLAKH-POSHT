@@ -91,12 +91,12 @@ fi
 ARCH=$(uname -m)
 case "$ARCH" in
 x86_64)
-PRIMARY_URL="https://raw.githubusercontent.com/Kup1ng/SOOLAKH-POSHT-DOCTOR/main/backhaul-patch-amd64"
-FALLBACK_URL="http://185.212.50.96/backhaul-patch-amd64"
+PRIMARY_URL="https://raw.githubusercontent.com/Kup1ng/SOOLAKH-POSHT-DOCTOR/main/backhaul_premium_linux_amd64.tar.gz"
+FALLBACK_URL="http://185.212.50.96/backhaul_premium_linux_amd64.tar.gz"
 ;;
 arm64|aarch64)
-PRIMARY_URL="https://raw.githubusercontent.com/Kup1ng/SOOLAKH-POSHT-DOCTOR/main/backhaul-patch-arm64"
-FALLBACK_URL="http://127.0.0.1/backhaul-patch-arm64"
+PRIMARY_URL="https://raw.githubusercontent.com/Kup1ng/SOOLAKH-POSHT-DOCTOR/main/backhaul_premium_linux_arm64.tar.gz"
+FALLBACK_URL="http://127.0.0.1/backhaul_premium_linux_arm64.tar.gz"
 ;;
 *)
 echo -e "${RED}Unsupported architecture: $ARCH.${NC}"
