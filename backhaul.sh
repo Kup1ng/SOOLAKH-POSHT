@@ -194,14 +194,12 @@ cat << "EOF"
  /        \/    |    \/    |    \|    |___ /    |    \|    |  \\    Y    /
 /_______  /\_______  /\_______  /|_______ \\____|__  /|____|__ \\___|_  / 
         \/         \/         \/         \/        \/         \/      \/  
-Lightning-fast reverse tunneling solution
 EOF
 echo -e "${NC}${GREEN}"
 echo -e "Script Version: ${YELLOW}${SCRIPT_VERSION}${GREEN}"
 if [[ -f "${config_dir}/backhaul_premium" ]]; then
-echo -e "Core Version: ${YELLOW}$($config_dir/backhaul_premium -v)${GREEN}"
+  echo -e "Core Version: ${YELLOW}$($config_dir/backhaul_premium -v)${GREEN}"
 fi
-echo -e "Telegram Channel: ${YELLOW}@Gozar_XRay${NC}"
 }
 display_server_info() {
 echo -e "\e[93m═══════════════════════════════════════════\e[0m"
