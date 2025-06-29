@@ -1276,7 +1276,7 @@ rm "$tmp_file"
 update_script(){
 DEST_DIR="/usr/bin/"
 BACKHAUL_SCRIPT="backhaul"
-SCRIPT_URL="http://79.175.167.114/backhaul.sh"
+SCRIPT_URL="https://raw.githubusercontent.com/Kup1ng/SOOLAKH-POSHT-DOCTOR/main/backhaul.sh"
 echo
 if [ -f "$DEST_DIR/$BACKHAUL_SCRIPT" ]; then
 rm "$DEST_DIR/$BACKHAUL_SCRIPT"
