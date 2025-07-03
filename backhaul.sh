@@ -1,4 +1,4 @@
-SCRIPT_VERSION="v0.6.3"
+SCRIPT_VERSION="v0.6.4"
 service_dir="/etc/systemd/system"
 config_dir="/root/backhaul-core"
 if [[ $EUID -ne 0 ]]; then
