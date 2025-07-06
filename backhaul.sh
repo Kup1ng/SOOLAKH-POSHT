@@ -886,6 +886,30 @@ fi
 echo
 press_key
 }
+install_watchdog() {
+  local svc="backhaul-watchdog.service"
+
+  # already installed?
+  if systemctl list-unit-files --type=service | grep -q "$svc"; then
+    colorize green "WatchDog is already installed."
+    press_key
+    return
+  fi
+
+  echo
+  colorize cyan "Installing WatchDog..." bold
+  bash <(curl -Ls --ipv4 https://raw.githubusercontent.com/Kup1ng/SOOLAKH-POSHT-DOCTOR/main/watchdog.sh)
+
+  # allow a couple of seconds for the service to appear
+  sleep 2
+
+  if systemctl list-unit-files --type=service | grep -q "$svc"; then
+    colorize green "WatchDog installed and service created." bold
+  else
+    colorize red "WatchDog installation seems to have failed." bold
+  fi
+  press_key
+}
 check_tunnel_status() {
 echo
 if ! ls "$config_dir"/*.toml 1> /dev/null 2>&1; then
@@ -1323,12 +1347,13 @@ echo -e " 4. Optimize network & system limits"
 echo -e " 5. Update & Install Backhaul Core"
 echo -e " 6. Update & install script"
 echo -e " 7. Remove Backhaul Core"
+echo -e " 8. WatchDog"
 echo -e " 0. Exit"
 echo
 echo "-------------------------------"
 }
 read_option() {
-read -p "Enter your choice [0-7]: " choice
+read -p "Enter your choice [0-8]: " choice
 case $choice in
 1) configure_tunnel ;;
 2) tunnel_management ;;
@@ -1337,6 +1362,7 @@ case $choice in
 5) download_and_extract_backhaul "menu";;
 6) update_script ;;
 7) remove_core ;;
+8) install_watchdog ;;
 0) exit 0 ;;
 *) echo -e "${RED} Invalid option!${NC}" && sleep 1 ;;
 esac
