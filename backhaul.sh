@@ -405,7 +405,7 @@ echo
 local heartbeat=20
 if [[ "$transport" != "tcptun" && "$transport" != "faketcptun" ]]; then
 while true; do
-echo -ne "[-] Heartbeat (in seconds, default 40): "
+echo -ne "[-] Heartbeat (in seconds, default 20): "
 read -r heartbeat
 if [[ -z "$heartbeat" ]]; then
 heartbeat=40
@@ -425,7 +425,7 @@ token="${token:-your_token}"
 if [[ "$transport" =~ ^(tcpmux|wsmux)$ ]]; then
 while true; do
 echo
-echo -ne "[-] Mux concurrency (default 4): "
+echo -ne "[-] Mux concurrency (default 32): "
 read -r mux
 if [[ -z "$mux" ]]; then
 mux=32
