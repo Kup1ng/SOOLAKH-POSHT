@@ -1,24 +1,24 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# ---------- تنظیمات ----------
+# ---------- Config ----------
 WATCHDOG_URL="https://raw.githubusercontent.com/Kup1ng/SOOLAKH-POSHT-DOCTOR/main/none-stop.sh"
 DEST_SCRIPT="/usr/local/bin/backhaul-all-watchdog.sh"
 SERVICE_FILE="/etc/systemd/system/backhaul-watchdog.service"
 
-# ---------- چک دسترسی ----------
+# ---------- Root check ----------
 if [[ $EUID -ne 0 ]]; then
-  echo "لطفاً با sudo یا به‌عنوان root اجرا کنید تا نگاه سگ راه بیفته." >&2
+  echo "Please run as root (e.g. with sudo)."
   exit 1
 fi
 
-echo "⬇️  در حال دانلود اسکریپت نگاه سگ از GitHub …"
+echo "🔽 Downloading backhaul watchdog script from GitHub..."
 curl -fsSL "$WATCHDOG_URL" -o "$DEST_SCRIPT"
 
-echo "🔑 اعمال اجازهٔ اجرا برای نگاه سگ …"
+echo "🔐 Making script executable..."
 chmod +x "$DEST_SCRIPT"
 
-echo "📝 نوشتن/به‌روزرسانی واحد systemd مربوط به نگاه سگ …"
+echo "📝 Writing systemd unit file for backhaul-watchdog.service..."
 cat > "$SERVICE_FILE" <<'EOF'
 [Unit]
 Description=Universal Watchdog for all backhaul-* services
@@ -34,11 +34,11 @@ RestartSec=5
 WantedBy=multi-user.target
 EOF
 
-echo "🔄 بارگذاری واحدهای systemd برای نگاه سگ …"
+echo "🔄 Reloading systemd units..."
 systemctl daemon-reload
 
-echo "🚀 فعال‌سازی و استارت نگاه سگ …"
+echo "🚀 Enabling and starting backhaul-watchdog.service..."
 systemctl enable --now backhaul-watchdog.service
 
-echo "✅ نگاه سگ فعال شد. وضعیت فعلی:"
+echo "✅ Watchdog is now active. Status:"
 systemctl status backhaul-watchdog.service --no-pager -n 8
