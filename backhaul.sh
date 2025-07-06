@@ -402,13 +402,13 @@ fi
 done
 fi
 echo
-local heartbeat=20
+local heartbeat=40
 if [[ "$transport" != "tcptun" && "$transport" != "faketcptun" ]]; then
 while true; do
-echo -ne "[-] Heartbeat (in seconds, default 20): "
+echo -ne "[-] Heartbeat (in seconds, default 40): "
 read -r heartbeat
 if [[ -z "$heartbeat" ]]; then
-heartbeat=20
+heartbeat=40
 fi
 if [[ "$heartbeat" =~ ^[0-9]+$ ]] && [ "$heartbeat" -gt 1 ] && [ "$heartbeat" -le 240 ]; then
 break
@@ -425,10 +425,10 @@ token="${token:-your_token}"
 if [[ "$transport" =~ ^(tcpmux|wsmux)$ ]]; then
 while true; do
 echo
-echo -ne "[-] Mux concurrency (default 32): "
+echo -ne "[-] Mux concurrency (default 4): "
 read -r mux
 if [[ -z "$mux" ]]; then
-mux=32
+mux=4
 fi
 if [[ "$mux" =~ ^[0-9]+$ ]] && [ "$mux" -gt 0 ] && [ "$mux" -le 1000 ]; then
 break
@@ -532,7 +532,7 @@ bind_addr = ":${tunnel_port}"
 transport = "${transport}"
 accept_udp = ${accept_udp}
 token = "${token}"
-keepalive_period = 20
+keepalive_period = 75
 nodelay = ${nodelay}
 channel_size = ${channel_size}
 heartbeat = ${heartbeat}
@@ -725,14 +725,14 @@ echo
 fi
 done
 fi
-local pool=24
+local pool=8
 if [[ "$transport" != "tcptun" && "$transport" != "faketcptun" ]]; then
 echo
 while true; do
-echo -ne "[-] Connection Pool (default 24): "
+echo -ne "[-] Connection Pool (default 8): "
 read -r pool
 if [[ -z "$pool" ]]; then
-pool=24
+pool=8
 fi
 if [[ "$pool" =~ ^[0-9]+$ ]] && [ "$pool" -gt 1 ] && [ "$pool" -le 1024 ]; then
 break
@@ -820,7 +820,7 @@ transport = "${transport}"
 token = "${token}"
 connection_pool = ${pool}
 aggressive_pool = false
-keepalive_period = 20
+keepalive_period = 75
 nodelay = ${nodelay}
 retry_interval = 3
 dial_timeout = 10
