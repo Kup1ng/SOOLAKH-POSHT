@@ -1,45 +1,56 @@
 #!/usr/bin/env bash
-PATTERN='backhaul-*.service'   # هر سرویسی که این الگو را داشته باشد
-TAIL_LINES=100                 # بین ۱۰۰ خط آخر لاگ جست‌وجو می‌کنیم
-SLEEP=10                       # دورهٔ چک به ثانیه
+PATTERN='backhaul-*.service'
+TAIL_LINES=100
+SLEEP=10
 
-ERR_PATTERN='\[ERROR\]'
-WAIT_PATTERN='\[INFO\] waiting for ws control channel connection'
-OK_PATTERN='\[INFO\] control channel established successfully'
+# ───── status message lists ─────
+WAIT_PATTERNS=(
+  "[INFO] waiting for ws control channel connection"
+  "[INFO] attempting to establish a new TCPMUX control channel connection..."
+  "[INFO] control channel not found, attempting to establish a new session"
+
+)
+
+OK_PATTERNS=(
+  "[INFO] control channel established successfully"
+)
+
+ERR_PATTERNS=(
+  "[ERROR]"
+)
 
 LOG() { echo "$(date '+%F %T') $1" >> /var/log/backhaul_watchdog.log; }
 
+matches_any() {              # $1=text  $2..=patterns
+  local txt="$1"; shift
+  for p in "$@"; do
+    [[ "$txt" == *"$p"* ]] && return 0
+  done
+  return 1
+}
+
 while true; do
-  # فهرست سرویس‌هایی که NAMEشان با backhaul- شروع می‌شود (فعال یا غیرفعال)
-  mapfile -t SERVICES < <(
-      systemctl list-unit-files --type=service "$PATTERN" --no-legend \
-      | awk '{print $1}'
-  )
+  mapfile -t SERVICES < <(systemctl list-unit-files --type=service "$PATTERN" --no-legend | awk '{print $1}')
 
   for SERVICE in "${SERVICES[@]}"; do
-    # اگر سرویس غیر‌فعال است ولی enable شده، راه‌اندازی‌اش کن
+    # restart if service inactive but enabled
     if ! systemctl is-active --quiet "$SERVICE"; then
       if systemctl is-enabled --quiet "$SERVICE"; then
         LOG "[$SERVICE] inactive → restarting"
         systemctl restart "$SERVICE"
       fi
-      # ادامه؛ چون وقتی inactive بود همین‌جا رسیدگی شد
       continue
     fi
 
-    # تازه‌ترین پیام کلیدی در ۱۰۰ خط اخیر لاگ
-    recent=$(journalctl -u "$SERVICE" -n "$TAIL_LINES" --no-pager \
-             | tac | grep -m1 -E "$ERR_PATTERN|$WAIT_PATTERN|$OK_PATTERN" || true)
+    recent=$(journalctl -u "$SERVICE" -n "$TAIL_LINES" --no-pager | tac | head -n 200)  # search window
 
-    # اگر WAIT یا ERROR دیده شد → ۱۰ ثانیه صبر و بازنگری
-    if [[ $recent =~ $WAIT_PATTERN || $recent =~ $ERR_PATTERN ]]; then
-      LOG "[$SERVICE] WAIT/ERROR → waiting $SLEEP s"
+    if matches_any "$recent" "${WAIT_PATTERNS[@]}" "${ERR_PATTERNS[@]}"; then
+      LOG "[$SERVICE] WAIT/ERROR detected → waiting $SLEEP s"
       sleep "$SLEEP"
 
-      current=$(journalctl -u "$SERVICE" -n "$TAIL_LINES" --no-pager \
-               | tac | grep -m1 -E "$ERR_PATTERN|$WAIT_PATTERN|$OK_PATTERN" || true)
+      current=$(journalctl -u "$SERVICE" -n "$TAIL_LINES" --no-pager | tac | head -n 200)
 
-      if [[ $current =~ $OK_PATTERN ]]; then
+      if matches_any "$current" "${OK_PATTERNS[@]}"; then
         LOG "[$SERVICE] recovered"
       else
         LOG "[$SERVICE] still down → restarting"
