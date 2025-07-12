@@ -107,9 +107,9 @@ esac
 DOWNLOAD_DIR=$(mktemp -d)
 echo -e "Downloading Backhaul from primary source (15s timeout)...\n"
 sleep 1
-if ! curl -sSL --max-time 10 -o "$DOWNLOAD_DIR/backhaul.tar.gz" "$PRIMARY_URLthen
+if ! curl -sSL --max-time 10 -o "$DOWNLOAD_DIR/backhaul.tar.gz" "$PRIMARY_URL" then
 echo -e "${YELLOW}Primary download failed or timed out. Trying fallback URL...${NC}\n"
-if ! curl -sSL --max-time 30 -o "$DOWNLOAD_DIR/backhaul.tar.gz" "$FALLBACK_URL then
+if ! curl -sSL --max-time 30 -o "$DOWNLOAD_DIR/backhaul.tar.gz" "$FALLBACK_URL" then
 echo -e "${RED}Both download attempts failed.${NC}"
 rm -rf "$DOWNLOAD_DIR"
 exit 1
