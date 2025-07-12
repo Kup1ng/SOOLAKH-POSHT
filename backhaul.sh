@@ -149,7 +149,7 @@ echo
 colorize red "Missing service files:" bold
 for entry in "${missing_services[@]}"; do
 service_file="${entry%%:*}"
-location="${entry#*:}location="${location%%:*}"
+location="${entry#*:}"
 tunnel_port="${entry##*:}"
 echo "- $service_file (type: $location, port: $tunnel_port)"
 done
@@ -158,7 +158,7 @@ read -p "Do you want to create missing service files? (y/n): " confirm
 if [[ "$confirm" =~ ^[Yy]$ ]]; then
 for entry in "${missing_services[@]}"; do
 service_file="${entry%%:*}"
-location="${entry#*:}location="${location%%:*}"
+location="${entry#*:}"
 tunnel_port="${entry##*:}"
 config_file="${config_dir}/${location}${tunnel_port}.toml"
 desc_loc="$(tr '\''[:lower:]'\'' '\''[:upper:]'\'' <<< ${location:0:1})${location:1}"
@@ -190,7 +190,7 @@ echo -e "${CYAN}"
 cat << "EOF"
  ______   ______   ______   __       ______   __  __   __  __    
 /\  ___\ /\  __ \ /\  __ \ /\ \     /\  __ \ /\ \/ /  /\ \_\ \   
-\ \___  \\ \ \/\ \\ \ \/\ \\ \ \____\ \  __ \\ \  _"-.\ \  __ \  
+\ \___  \\ \ \/\ \\ \ \/\ \\ \ \____\ \  __ \\ \  _'-.\ \  __ \\  
  \/\_____\\ \_____\\ \_____\\ \_____\\ \_\ \_\\ \_\ \_\\ \_\ \_\ 
   \/_____/ \/_____/ \/_____/ \/_____/ \/_/\/_/ \/_/\/_/ \/_/\/_/ 
 Lightning-fast reverse tunneling solution
@@ -1352,7 +1352,7 @@ case $choice in
 2) tunnel_management ;;
 3) check_tunnel_status ;;
 4) hawshemi_script ;;
-5) download_and_extract_backhaul "menu;
+5) download_and_extract_backhaul "menu"
 6) update_script ;;
 7) remove_core ;;
 0) exit 0 ;;
