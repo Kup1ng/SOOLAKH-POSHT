@@ -147,7 +147,7 @@ return 0
 fi
 echo
 colorize red "Missing service files:" bold
-for entry in "${missing_services[@]}o
+for entry in "${missing_services[@]}"; do
 service_file="${entry%%:*}"
 location="${entry#*:}location="${location%%:*}"
 tunnel_port="${entry##*:}"
@@ -156,7 +156,7 @@ done
 echo
 read -p "Do you want to create missing service files? (y/n): " confirm
 if [[ "$confirm" =~ ^[Yy]$ ]]; then
-for entry in "${missing_services[@]}o
+for entry in "${missing_services[@]}"; do
 service_file="${entry%%:*}"
 location="${entry#*:}location="${location%%:*}"
 tunnel_port="${entry##*:}"
@@ -276,7 +276,7 @@ while true; do
 echo -ne "[*] Tunnel port: "
 read -r tunnel_port
 if [[ "$tunnel_port" =~ ^[0-9]+$ ]] && [ "$tunnel_port" -gt 22 ] && [ "$tunnel_port" -le 65535 ]; then
-if check_port "$tunnel_port" "tcpthen
+if check_port "$tunnel_port" "tcp"; then
 colorize red "Port $tunnel_port is in use."
 else
 break
@@ -482,7 +482,7 @@ fi
 if [[ "$web_port" == "0" ]]; then
 break
 elif [[ "$web_port" =~ ^[0-9]+$ ]] && ((web_port >= 23 && web_port <= 65535)); then
-if check_port "$web_port" "tcp then
+if check_port "$web_port" "tcp"; then
 colorize red "Port $web_port is already in use. Please choose a different port."
 echo
 else
@@ -551,7 +551,7 @@ tun_subnet = "${tun_subnet}"
 mtu = ${mtu}
 ports = [
 EOF
-for port in "${ports[@]}o
+for port in "${ports[@]}"; do
 if [[ "$port" =~ ^[0-9]+-[0-9]+$ ]]; then
 echo "    \"$port\"," >> "${config_dir}/iran${tunnel_port}.toml"
 elif [[ "$port" =~ ^[0-9]+-[0-9]+:[0-9]+$ ]]; then
@@ -922,7 +922,7 @@ config_name=$(basename "$config_path")
 config_name="${config_name%.toml}"
 service_name="backhaul-${config_name}.service"
 config_port="${config_name#iran}"
-if systemctl is-active --quiet "$service_namethen
+if systemctl is-active --quiet "$service_name"; then
 colorize green "Iran service with tunnel port $config_port is running"
 else
 colorize red "Iran service with tunnel port $config_port is not running"
