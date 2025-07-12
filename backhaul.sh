@@ -118,7 +118,6 @@ fi
 echo -e "Extracting Backhaul...\n"
 sleep 1
 mkdir -p "$config_dir"
-}
 tar -xzf "$DOWNLOAD_DIR/backhaul.tar.gz" -C "$config_dir"
 echo -e "${GREEN}Backhaul installation completed.${NC}\n"
 chmod u+x "${config_dir}/backhaul_premium"
