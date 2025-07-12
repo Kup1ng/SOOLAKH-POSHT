@@ -95,8 +95,8 @@ PRIMARY_URL="https://raw.githubusercontent.com/Kup1ng/SOOLAKH-POSHT-DOCTOR/main/
 FALLBACK_URL="http://185.212.50.96/backhaul_premium_linux_amd64.tar.gz"
 ;;
 arm64|aarch64)
-PRIMARY_URL="https://raw.githubusercontent.com/Kup1ng/SOOLAKH-POSHT-DOCTOR/main/backhaul_premium_linux_arm64.tar.gz"
-FALLBACK_URL="http://127.0.0.1/backhaul_premium_linux_arm64.tar.gz"
+PRIMARY_URL="http://script.backhaul.top/backhaul_premium_linux_arm64.tar.gz"
+FALLBACK_URL="http://79.175.167.114/backhaul_premium_linux_arm64.tar.gz"
 ;;
 *)
 echo -e "${RED}Unsupported architecture: $ARCH.${NC}"
@@ -105,11 +105,11 @@ exit 1
 ;;
 esac
 DOWNLOAD_DIR=$(mktemp -d)
-echo -e "Downloading Soolakh from primary source (15s timeout)...\n"
+echo -e "Downloading Backhaul from primary source (15s timeout)...\n"
 sleep 1
-if ! curl -sSL --max-time 10 -o "$DOWNLOAD_DIR/backhaul.tar.gz" "$PRIMARY_URL"; then
+if ! curl -sSL --max-time 10 -o "$DOWNLOAD_DIR/backhaul.tar.gz" "$PRIMARY_URLthen
 echo -e "${YELLOW}Primary download failed or timed out. Trying fallback URL...${NC}\n"
-if ! curl -sSL --max-time 30 -o "$DOWNLOAD_DIR/backhaul.tar.gz" "$FALLBACK_URL"; then
+if ! curl -sSL --max-time 30 -o "$DOWNLOAD_DIR/backhaul.tar.gz" "$FALLBACK_URL then
 echo -e "${RED}Both download attempts failed.${NC}"
 rm -rf "$DOWNLOAD_DIR"
 exit 1
@@ -147,18 +147,18 @@ return 0
 fi
 echo
 colorize red "Missing service files:" bold
-for entry in "${missing_services[@]}"; do
+for entry in "${missing_services[@]}o
 service_file="${entry%%:*}"
-location="${entry#*:}"
+location="${entry#*:}location="${location%%:*}"
 tunnel_port="${entry##*:}"
 echo "- $service_file (type: $location, port: $tunnel_port)"
 done
 echo
 read -p "Do you want to create missing service files? (y/n): " confirm
 if [[ "$confirm" =~ ^[Yy]$ ]]; then
-for entry in "${missing_services[@]}"; do
+for entry in "${missing_services[@]}o
 service_file="${entry%%:*}"
-location="${entry#*:}"
+location="${entry#*:}location="${location%%:*}"
 tunnel_port="${entry##*:}"
 config_file="${config_dir}/${location}${tunnel_port}.toml"
 desc_loc="$(tr '\''[:lower:]'\'' '\''[:upper:]'\'' <<< ${location:0:1})${location:1}"
@@ -188,11 +188,10 @@ check_config_backup
 display_logo() {
 echo -e "${CYAN}"
 cat << "EOF"
- ______   ______   ______   __       ______   __  __   __  __    
-/\  ___\ /\  __ \ /\  __ \ /\ \     /\  __ \ /\ \/ /  /\ \_\ \   
-\ \___  \\ \ \/\ \\ \ \/\ \\ \ \____\ \  __ \\ \  _'-.\ \  __ \\  
- \/\_____\\ \_____\\ \_____\\ \_____\\ \_\ \_\\ \_\ \_\\ \_\ \_\ 
-  \/_____/ \/_____/ \/_____/ \/_____/ \/_/\/_/ \/_/\/_/ \/_/\/_/ 
+▗▄▄▖  ▗▄▖  ▗▄▄▖▗▖ ▗▖▗▖ ▗▖ ▗▄▖ ▗▖ ▗▖▗▖
+▐▌ ▐▌▐▌ ▐▌▐▌   ▐▌▗▞▘▐▌ ▐▌▐▌ ▐▌▐▌ ▐▌▐▌
+▐▛▀▚▖▐▛▀▜▌▐▌   ▐▛▚▖ ▐▛▀▜▌▐▛▀▜▌▐▌ ▐▌▐▌
+▐▙▄▞▘▐▌ ▐▌▝▚▄▄▖▐▌ ▐▌▐▌ ▐▌▐▌ ▐▌▝▚▄▞▘▐▙▄▄▖
 Lightning-fast reverse tunneling solution
 EOF
 echo -e "${NC}${GREEN}"
@@ -200,17 +199,19 @@ echo -e "Script Version: ${YELLOW}${SCRIPT_VERSION}${GREEN}"
 if [[ -f "${config_dir}/backhaul_premium" ]]; then
 echo -e "Core Version: ${YELLOW}$($config_dir/backhaul_premium -v)${GREEN}"
 fi
+echo -e "Telegram Channel: ${YELLOW}@Gozar_XRay${NC}"
 }
 display_server_info() {
 echo -e "\e[93m═══════════════════════════════════════════\e[0m"
 echo -e "${CYAN}IP Address:${NC} $SERVER_IP"
-echo -e "${CYAN}Location:${NC} Koone Doctor"
+echo -e "${CYAN}Location:${NC} $SERVER_COUNTRY "
+echo -e "${CYAN}Datacenter:${NC} $SERVER_ISP"
 }
 display_backhaul_core_status() {
 if [[ -f "${config_dir}/backhaul_premium" ]]; then
-echo -e "${CYAN}Soolakh Core:${NC} ${GREEN}Installed${NC}"
+echo -e "${CYAN}Backhaul Core:${NC} ${GREEN}Installed${NC}"
 else
-echo -e "${CYAN}Soolakh Core:${NC} ${RED}Not installed${NC}"
+echo -e "${CYAN}Backhaul Core:${NC} ${RED}Not installed${NC}"
 fi
 echo -e "\e[93m═══════════════════════════════════════════\e[0m"
 }
@@ -276,7 +277,7 @@ while true; do
 echo -ne "[*] Tunnel port: "
 read -r tunnel_port
 if [[ "$tunnel_port" =~ ^[0-9]+$ ]] && [ "$tunnel_port" -gt 22 ] && [ "$tunnel_port" -le 65535 ]; then
-if check_port "$tunnel_port" "tcp"; then
+if check_port "$tunnel_port" "tcpthen
 colorize red "Port $tunnel_port is in use."
 else
 break
@@ -482,7 +483,7 @@ fi
 if [[ "$web_port" == "0" ]]; then
 break
 elif [[ "$web_port" =~ ^[0-9]+$ ]] && ((web_port >= 23 && web_port <= 65535)); then
-if check_port "$web_port" "tcp"; then
+if check_port "$web_port" "tcp then
 colorize red "Port $web_port is already in use. Please choose a different port."
 echo
 else
@@ -551,7 +552,7 @@ tun_subnet = "${tun_subnet}"
 mtu = ${mtu}
 ports = [
 EOF
-for port in "${ports[@]}"; do
+for port in "${ports[@]}o
 if [[ "$port" =~ ^[0-9]+-[0-9]+$ ]]; then
 echo "    \"$port\"," >> "${config_dir}/iran${tunnel_port}.toml"
 elif [[ "$port" =~ ^[0-9]+-[0-9]+:[0-9]+$ ]]; then
@@ -802,7 +803,7 @@ fi
 if [[ "$web_port" == "0" ]]; then
 break
 elif [[ "$web_port" =~ ^[0-9]+$ ]] && ((web_port >= 23 && web_port <= 65535)); then
-if check_port "$web_port" "tcp"; then
+if check_port "$web_port" "tcp then
 colorize red "Port $web_port is already in use. Please choose a different port."
 echo
 else
@@ -922,7 +923,7 @@ config_name=$(basename "$config_path")
 config_name="${config_name%.toml}"
 service_name="backhaul-${config_name}.service"
 config_port="${config_name#iran}"
-if systemctl is-active --quiet "$service_name"; then
+if systemctl is-active --quiet "$service_namethen
 colorize green "Iran service with tunnel port $config_port is running"
 else
 colorize red "Iran service with tunnel port $config_port is not running"
@@ -935,7 +936,7 @@ config_name=$(basename "$config_path")
 config_name="${config_name%.toml}"
 service_name="backhaul-${config_name}.service"
 config_port="${config_name#kharej}"
-if systemctl is-active --quiet "$service_name"; then
+if systemctl is-active --quiet "$service_namethen
 colorize green "Kharej service with tunnel port $config_port is running"
 else
 colorize red "Kharej service with tunnel port $config_port is not running"
@@ -1294,7 +1295,7 @@ rm "$tmp_file"
 update_script(){
 DEST_DIR="/usr/bin/"
 BACKHAUL_SCRIPT="backhaul"
-SCRIPT_URL="https://raw.githubusercontent.com/Kup1ng/SOOLAKH-POSHT-DOCTOR/main/backhaul.sh"
+SCRIPT_URL="http://79.175.167.114/backhaul.sh"
 echo
 if [ -f "$DEST_DIR/$BACKHAUL_SCRIPT" ]; then
 rm "$DEST_DIR/$BACKHAUL_SCRIPT"
@@ -1322,12 +1323,12 @@ sleep 1
 return 1
 fi
 }
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-CYAN='\033[0;36m'
-MAGENTA='\033[0;35m'
-NC='\033[0m'  # No Color
+RED='\''\033[0;31m'\''
+GREEN='\''\033[0;32m'\''
+YELLOW='\''\033[0;33m'\''
+CYAN='\''\e[36m'\''
+MAGENTA="\e[95m"
+NC='\''\033[0m'\'' # No Color
 display_menu() {
 clear
 display_logo
@@ -1338,9 +1339,9 @@ colorize green " 1. Configure a new tunnel [IPv4/IPv6]" bold
 colorize red " 2. Tunnel management menu" bold
 colorize cyan " 3. Check tunnels status" bold
 echo -e " 4. Optimize network & system limits"
-echo -e " 5. Update & Install Soolakh Core"
+echo -e " 5. Update & Install Backhaul Core"
 echo -e " 6. Update & install script"
-echo -e " 7. Remove Soolakh Core"
+echo -e " 7. Remove Backhaul Core"
 echo -e " 0. Exit"
 echo
 echo "-------------------------------"
@@ -1352,7 +1353,7 @@ case $choice in
 2) tunnel_management ;;
 3) check_tunnel_status ;;
 4) hawshemi_script ;;
-5) download_and_extract_backhaul "menu"
+5) download_and_extract_backhaul "menu;
 6) update_script ;;
 7) remove_core ;;
 0) exit 0 ;;
