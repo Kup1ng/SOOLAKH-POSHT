@@ -1327,7 +1327,7 @@ GREEN='\''\033[0;32m'\''
 YELLOW='\''\033[0;33m'\''
 CYAN='\''\e[36m'\''
 MAGENTA="\e[95m"
-NC='\''\033[0m'\'' # No Color
+NC='\033[0m'  # No Color
 display_menu() {
 clear
 display_logo
