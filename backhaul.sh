@@ -107,9 +107,9 @@ esac
 DOWNLOAD_DIR=$(mktemp -d)
 echo -e "Downloading Soolakh from primary source (15s timeout)...\n"
 sleep 1
-if ! curl -sSL --max-time 10 -o "$DOWNLOAD_DIR/backhaul.tar.gz" "$PRIMARY_URL"; then
+if ! curl -sSL --max-time 10 -o "$DOWNLOAD_DIR/backhaul.tar.gz" "$PRIMARY_URL then
 echo -e "${YELLOW}Primary download failed or timed out. Trying fallback URL...${NC}\n"
-if ! curl -sSL --max-time 30 -o "$DOWNLOAD_DIR/backhaul.tar.gz" "$FALLBACK_URL"; then
+if ! curl -sSL --max-time 30 -o "$DOWNLOAD_DIR/backhaul.tar.gz" "$FALLBACK_URL then
 echo -e "${RED}Both download attempts failed.${NC}"
 rm -rf "$DOWNLOAD_DIR"
 exit 1
@@ -802,7 +802,7 @@ fi
 if [[ "$web_port" == "0" ]]; then
 break
 elif [[ "$web_port" =~ ^[0-9]+$ ]] && ((web_port >= 23 && web_port <= 65535)); then
-if check_port "$web_port" "tcp then
+if check_port "$web_port" "tcp"; then
 colorize red "Port $web_port is already in use. Please choose a different port."
 echo
 else
@@ -935,7 +935,7 @@ config_name=$(basename "$config_path")
 config_name="${config_name%.toml}"
 service_name="backhaul-${config_name}.service"
 config_port="${config_name#kharej}"
-if systemctl is-active --quiet "$service_namethen
+if systemctl is-active --quiet "$service_name"; then
 colorize green "Kharej service with tunnel port $config_port is running"
 else
 colorize red "Kharej service with tunnel port $config_port is not running"
@@ -1327,7 +1327,7 @@ GREEN='\''\033[0;32m'\''
 YELLOW='\''\033[0;33m'\''
 CYAN='\''\e[36m'\''
 MAGENTA="\e[95m"
-NC='\033[0m'  # No Color
+NC='\''\033[0m'\'' # No Color
 display_menu() {
 clear
 display_logo
