@@ -91,11 +91,11 @@ fi
 ARCH=$(uname -m)
 case "$ARCH" in
 x86_64)
-PRIMARY_URL="https://raw.githubusercontent.com/Kup1ng/SOOLAKH-POSHT-DOCTOR/main/soolakh_premium_linux_amd64.tar.gz"
-FALLBACK_URL="http://185.212.50.96/soolakh_premium_linux_amd64.tar.gz"
+PRIMARY_URL="https://raw.githubusercontent.com/Kup1ng/SOOLAKH-POSHT/main/soolakh_premium_linux_amd64.tar.gz"
+FALLBACK_URL="http://127.0.0.1/soolakh_premium_linux_amd64.tar.gz"
 ;;
 arm64|aarch64)
-PRIMARY_URL="https://raw.githubusercontent.com/Kup1ng/SOOLAKH-POSHT-DOCTOR/main/soolakh_premium_linux_arm64.tar.gz"
+PRIMARY_URL="https://raw.githubusercontent.com/Kup1ng/SOOLAKH-POSHT/main/soolakh_premium_linux_arm64.tar.gz"
 FALLBACK_URL="http://127.0.0.1/soolakh_premium_linux_arm64.tar.gz"
 ;;
 *)
@@ -1293,7 +1293,7 @@ rm "$tmp_file"
 update_script(){
 DEST_DIR="/usr/bin/"
 Soolakh_SCRIPT="soolakh"
-SCRIPT_URL="https://raw.githubusercontent.com/Kup1ng/SOOLAKH-POSHT-DOCTOR/main/soolakh.sh"
+SCRIPT_URL="https://raw.githubusercontent.com/Kup1ng/SOOLAKH-POSHT/main/soolakh.sh"
 echo
 if [ -f "$DEST_DIR/$Soolakh_SCRIPT" ]; then
 rm "$DEST_DIR/$Soolakh_SCRIPT"
