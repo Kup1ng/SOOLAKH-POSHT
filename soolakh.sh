@@ -203,7 +203,6 @@ fi
 display_server_info() {
 echo -e "\e[93m═══════════════════════════════════════════\e[0m"
 echo -e "${CYAN}IP Address:${NC} $SERVER_IP"
-echo -e "${CYAN}Location:${NC} Koone Doctor"
 }
 display_soolakh_core_status() {
 if [[ -f "${config_dir}/soolakh_premium" ]]; then
